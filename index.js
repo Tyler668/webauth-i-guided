@@ -1,6 +1,7 @@
 const express = require('express');
 const helmet = require('helmet');
 const cors = require('cors');
+const restricted = require('./user-auth.js')
 
 const db = require('./database/dbConfig.js');
 const Users = require('./users/users-model.js');
@@ -27,7 +28,7 @@ server.post('/api/register', (req, res) => {
     });
 });
 
-server.post('/api/login', (req, res) => {
+server.post('/api/login', restricted, (req, res) => {
   let { username, password } = req.body;
 
   Users.findBy({ username })
